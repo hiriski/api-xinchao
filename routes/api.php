@@ -7,7 +7,8 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\User\UserController;
-use App\Http\Controllers\TestController;
+use App\Http\Controllers\PhrasebookController;
+use App\Http\Controllers\PhrasebookCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,12 +26,39 @@ use App\Http\Controllers\TestController;
  * Authentication routes
  */
 Route::prefix('/auth')->group(function() {
-    Route::post('/register', RegisterController::class)->name('register');
-    Route::post('/login', LoginController::class)->name('login');
-    Route::post('/logout', LogoutController::class)->name('logout');
+    Route::post(
+        '/register',
+        RegisterController::class
+    )->name('register');
+    Route::post(
+        '/login',
+        LoginController::class
+    )->name('login');
+    Route::post(
+        '/logout',
+        LogoutController::class
+    )->name('logout');
 });
 
 /**
  * User
  */
-Route::get('/user', UserController::class)->name('user');
+Route::get(
+    '/user',
+    UserController::class
+)->name('user');
+
+/**
+ * PhraseBook
+ */
+Route::apiResource(
+    '/phrasebook',
+    PhrasebookController::class
+)->except(['show']);
+
+Route::name('phrasebook.')->group(function() {
+    Route::apiResource(
+        '/phrasebook/category',
+        PhrasebookCategoryController::class
+    );
+});

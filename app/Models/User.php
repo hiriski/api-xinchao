@@ -45,4 +45,15 @@ class User extends Authenticatable {
     public function getRouteKeyName() {
         return 'username';
     }
+
+    /**
+     * Relationship between User and Phrasebook 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function phrases() {
+        return $this->hasMany(
+            Phrasebook::class,
+            'created_by'
+        );
+    }
 }
