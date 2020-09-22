@@ -3,19 +3,20 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\User;
+use App\Models\Discussion;
 
-class UserWithFactorySeeder extends Seeder {
+class DiscussionSeeder extends Seeder {
     /**
      * Run the database seeds.
      *
      * @return void
      */
     public function run() {
-        User::factory()
-            ->times(5)
-            ->hasReplies(3)
-            ->hasDiscussions(3)
+        Discussion::factory()
+            ->times(3)
+            ->forUser([
+                'name' => 'Riski Dep Trai'
+            ])
             ->create();
     }
 }

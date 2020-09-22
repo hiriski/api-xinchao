@@ -15,7 +15,9 @@ class DatabaseSeeder extends Seeder {
             UserSeeder::class,
             UserWithFactorySeeder::class,
             PhrasebookCategorySeeder::class,
-            PhrasebookSeeder::class
+            PhrasebookSeeder::class,
+            DiscussionSeeder::class,
+            ReplySeeder::class,
         ]);
     }
 }
