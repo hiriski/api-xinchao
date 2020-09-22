@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\JsonResponse as Response;
 use App\Models\Discussion;
 use App\Models\Topic;
+use App\Models\User;
 use Tests\TestCase;
 
 class DiscussionTest extends TestCase {
@@ -34,7 +35,7 @@ class DiscussionTest extends TestCase {
     public function testAClientCanFetchOnlySixteenThreadAtOne() {
         $itemCount = 20;
         $exceptedCount = 16;
-        $threads = Discussion::factory()->count($exceptedCount)->create();
+        $threads = Discussion::factory()->count($itemCount)->create();
         $response = $this->getJson(
             route("discussion.index")
         );
@@ -58,6 +59,19 @@ class DiscussionTest extends TestCase {
         );
         $response->assertStatus(Response::HTTP_CREATED);
         $this->assertTrue($response['success']);
+    }
+
+
+    /**
+     * A Discussion thread has a creator
+     */
+    public function testAThreadHasACreator() {
+        $this->sanctumAuth();
+        $user = User::factory()->create();
+        $thread = Discussion::factory()->create([
+            'user_id' => $user->id
+        ]);
+        $this->assertEquals($user->id, $thread->user->id);
     }
 
 
@@ -94,7 +108,6 @@ class DiscussionTest extends TestCase {
                 ],
             ]);
     }
-
 
     protected function arrayThread() {
         $thread = Discussion::factory()->make();

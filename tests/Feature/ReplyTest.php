@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse as Response;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\Discussion;
 use App\Models\Reply;
+use App\Models\User;
 use Tests\TestCase;
 
 class ReplyTest extends TestCase {
@@ -36,11 +37,11 @@ class ReplyTest extends TestCase {
         $thread = $this->thread();
         $response = $this->postReply($thread->id, $this->arrayReply());
         $response
-        ->assertStatus(Response::HTTP_CREATED)
-        ->assertJson([
-            'message' => 'You have replied successfully.'
-            ]);
-        $this->assertTrue($response['success']);
+            ->assertStatus(Response::HTTP_CREATED)
+            ->assertJson([
+                'message' => 'You have replied successfully.'
+                ]);
+            $this->assertTrue($response['success']);
     }
 
     /**
@@ -50,6 +51,20 @@ class ReplyTest extends TestCase {
         $thread = $this->thread();
         $response = $this->postReply($thread->id, $this->arrayReply());
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+    }
+
+    /**
+     * A Replies has a creator
+     */
+    public function testARepliesHasACreator() {
+        $this->sanctumAuth();
+        $user   = User::factory()->create();
+        $thread = Discussion::factory()->create();
+        $reply  = Reply::factory()->create([
+            'user_id' => $user->id,
+            'discussion_id' => $thread->id,
+        ]);
+        $this->assertEquals($user->id, $reply->user->id);
     }
 
     /** 
@@ -67,7 +82,6 @@ class ReplyTest extends TestCase {
                     'content' => ['The content field is required.']
                 ],
             ]);
-        
     }
     
     protected function postReply($thread_id, $arrReply) {
