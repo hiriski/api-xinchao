@@ -14,9 +14,9 @@ use App\Http\Controllers\Discussion\TopicController;
 use App\Http\Controllers\Discussion\ReplyController;
 
 /*
-|--------------------------------------------------------------------------
+|---------------------------------------------------------------------------------
 | API Routes
-|--------------------------------------------------------------------------
+|---------------------------------------------------------------------------------
 |
 | Here is where you can register API routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
@@ -24,63 +24,45 @@ use App\Http\Controllers\Discussion\ReplyController;
 |
 */
 
-
-/**
- * Authentication routes
- */
+/*
+|--------------------------------------------------------
+| Authentication Routes
+|--------------------------------------------------------
+*/
 Route::prefix('/auth')->group(function() {
-    Route::post(
-        '/register',
-        RegisterController::class
-    )->name('register');
-    Route::post(
-        '/login',
-        LoginController::class
-    )->name('login');
-    Route::post(
-        '/logout',
-        LogoutController::class
-    )->name('logout');
+    Route::post('/register', RegisterController::class)->name('register');
+    Route::post('/login', LoginController::class)->name('login');
+    Route::post('/logout', LogoutController::class)->name('logout');
 });
 
-/**
- * User
- */
-Route::get(
-    '/user',
-    UserController::class
-)->name('user');
+/*
+|--------------------------------------------------------
+| A User Routes
+|--------------------------------------------------------
+*/
+Route::get('/user', UserController::class)->name('user');
 
-/**
- * PhraseBook
- */
-Route::apiResource(
-    '/phrasebook',
-    PhrasebookController::class
-)->except(['show']);
-
+/*
+|--------------------------------------------------------
+| Phrasebook Routes
+|--------------------------------------------------------
+*/
 Route::name('phrasebook.')->group(function() {
-    Route::apiResource(
-        '/phrasebook/category',
-        PhrasebookCategoryController::class
-    );
+    Route::apiResource('/phrasebook/category', PhrasebookCategoryController::class);
 });
+Route::apiResource('/phrasebook', PhrasebookController::class)
+    ->except(['show']);
 
-/** Discussion */
+/*
+|--------------------------------------------------------
+| Discussion/Thread Routes
+|--------------------------------------------------------
+*/
 Route::name('discussion.')->group(function() {
     Route::prefix('/discussion')->group(function() {
-        Route::apiResource(
-            '/topic',
-            TopicController::class
-        );
-        Route::apiResource(
-            '{discussion}/reply',
-            ReplyController::class
-        )->except(['index', 'show']);
+        Route::apiResource('/topic', TopicController::class);
+        Route::apiResource('{discussion}/reply', ReplyController::class)
+            ->except(['index', 'show']);
     });
-    
 });
-Route::apiResource(
-    '/discussion',
-    DiscussionController::class
-);
+Route::apiResource('/discussion', DiscussionController::class);
