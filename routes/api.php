@@ -12,6 +12,7 @@ use App\Http\Controllers\PhrasebookCategoryController;
 use App\Http\Controllers\Discussion\DiscussionController;
 use App\Http\Controllers\Discussion\TopicController;
 use App\Http\Controllers\Discussion\ReplyController;
+use App\Http\Controllers\Discussion\FavoriteDiscussionController;
 
 /*
 |---------------------------------------------------------------------------------
@@ -63,6 +64,11 @@ Route::name('discussion.')->group(function() {
         Route::apiResource('/topic', TopicController::class);
         Route::apiResource('{discussion}/reply', ReplyController::class)
             ->except(['index', 'show']);
+        /** Favorite discussion */
+        Route::post('/{discussion}/favorite', [FavoriteDiscussionController::class, 'store'])
+        ->name('favorite.store');
+        Route::delete('/{discussion}/favorite', [FavoriteDiscussionController::class, 'destroy'])
+        ->name('favorite.destroy');
     });
 });
 Route::apiResource('/discussion', DiscussionController::class);

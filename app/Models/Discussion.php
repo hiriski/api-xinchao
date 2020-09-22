@@ -57,7 +57,16 @@ class Discussion extends Model {
     public function replies() {
         return $this->hasMany(Reply::class);
     }
-
+    
+    /**
+     * Get all of the discussion's favorites
+     * Polymorphic relation
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function favorites() {
+        return $this->morphMany(Favorite::class, 'favoritable');
+    }
+    
     /**
      * Get the replies count for thread discussion.
      * @return bool
