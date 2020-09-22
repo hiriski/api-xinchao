@@ -9,6 +9,9 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\PhrasebookController;
 use App\Http\Controllers\PhrasebookCategoryController;
+use App\Http\Controllers\Discussion\DiscussionController;
+use App\Http\Controllers\Discussion\TopicController;
+use App\Http\Controllers\Discussion\ReplyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,3 +65,22 @@ Route::name('phrasebook.')->group(function() {
         PhrasebookCategoryController::class
     );
 });
+
+/** Discussion */
+Route::name('discussion.')->group(function() {
+    Route::prefix('/discussion')->group(function() {
+        Route::apiResource(
+            '/topic',
+            TopicController::class
+        );
+        Route::apiResource(
+            '{discussion}/reply',
+            ReplyController::class
+        )->except(['index', 'show']);
+    });
+    
+});
+Route::apiResource(
+    '/discussion',
+    DiscussionController::class
+);

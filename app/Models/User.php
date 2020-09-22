@@ -56,4 +56,20 @@ class User extends Authenticatable {
             'created_by'
         );
     }
+
+    /**
+     * Relationship between a User and Discussion 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function discussions() {
+        return $this->hasMany(Discussion::class);
+    }
+
+    /**
+     * Relationship between a User and Reply 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function replies() {
+        return $this->hasMany(Reply::class);
+    }
 }
