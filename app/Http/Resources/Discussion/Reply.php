@@ -17,6 +17,7 @@ class Reply extends JsonResource {
         return [
             'id'        => $this->id,
             'content'   => $this->content,
+            'is_favorited' => $this->is_favorited,
             'user'      => new UserResource($this->user),
         ];
     }

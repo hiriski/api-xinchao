@@ -4,9 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Favoritable;
 
 class Reply extends Model {
-    use HasFactory;
+    use HasFactory, Favoritable;
 
     /**
      * The attributes that are mass assignable.
@@ -27,13 +28,18 @@ class Reply extends Model {
     protected $with = ['user'];
 
     /**
+     * Appends custom attributes
+     * @var array
+     */
+    protected $appends = ['is_favorited'];
+
+    /**
      * Relationship between Reply and User
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user() {
         return $this->belongsTo(User::class);
     }
-
 
     /**
      * Relationship between a Reply and Discussion 

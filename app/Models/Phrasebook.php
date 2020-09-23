@@ -5,9 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
+use App\Favoritable;
 
 class Phrasebook extends Model {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Favoritable;
 
     /**
      * The attribute that are mass assignable.
@@ -28,10 +29,7 @@ class Phrasebook extends Model {
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function creator() {
-        return $this->belongsTo(
-            User::class,
-            'created_by'
-        );
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     /**
@@ -39,10 +37,7 @@ class Phrasebook extends Model {
     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
     */
     public function updator() {
-        return $this->belongsTo(
-            User::class,
-            'updated_by'
-        );
+        return $this->belongsTo(User::class, 'updated_by');
     }
 
     /**
