@@ -5,9 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
+use App\Favoritable;
 
 class Discussion extends Model {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Favoritable;
 
     /**
      * The attribute that are mass assignable.
@@ -32,7 +33,7 @@ class Discussion extends Model {
      * Appends custom attributes
      * @var array
      */
-    protected $appends = ['replies_count'];
+    protected $appends = ['replies_count', 'is_favorited'];
 
     /**
      * Relationship between Discussion and User
@@ -56,15 +57,6 @@ class Discussion extends Model {
      */
     public function replies() {
         return $this->hasMany(Reply::class);
-    }
-    
-    /**
-     * Get all of the discussion's favorites
-     * Polymorphic relation
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-     */
-    public function favorites() {
-        return $this->morphMany(Favorite::class, 'favoritable');
     }
     
     /**

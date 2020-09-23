@@ -14,17 +14,9 @@ class Phrasebook extends JsonResource {
      */
     public function toArray($request) {
         // return parent::toArray($request);
-        if(Route::currentRouteName() === 'phrasebook.category.show') {
-            return [
-                'id'    => $this->id_ID,
-                'vi'    => $this->vi_VN,
-                'en'    => $this->en_US,
-                'notes' => $this->notes
-            ];
-        } 
         return [
             'id'        => $this->id,
-            'category'  => $this->category,
+            'is_favorited' => $this->is_favorited,
             'text'      => [
                 'id'    => $this->id_ID,
                 'vi'    => $this->vi_VN,

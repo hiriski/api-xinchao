@@ -12,7 +12,11 @@ class Favorite extends Model {
      * The attributes that are mass assignable.
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'user_id',
+        'favoriable_id',
+        'favoriable_type'
+    ];
 
     public function favoriable() {
         return $this->morphTo();

@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Discussion;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-use App\Models\Discussion;
+use App\Models\Phrasebook;
 
-class FavoriteDiscussionController extends Controller {
+class FavoritePhrasebookController extends Controller {
 
     public function __construct() {
         $this->middleware('auth:sanctum');
@@ -15,11 +14,11 @@ class FavoriteDiscussionController extends Controller {
     /**
      * Store a newly created resource in storage.
      * 
-     * @param App\Models\Discussion $discussion
+     * @param App\Models\Phrasebook $phrasebook
      * @return \Illuminate\Http\Response
      */
-    public function store(Discussion $discussion) {
-        if($discussion->addFavorite()) {
+    public function store(Phrasebook $phrasebook) {
+        if($phrasebook->addFavorite()) {
             return $this->responseOk();
         }
     }
@@ -27,11 +26,11 @@ class FavoriteDiscussionController extends Controller {
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Discussion  $discussion
+     * @param  \App\Models\Phrasebook  $phrasebook
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Discussion $discussion) {
-        if($discussion->removeFavorite()) {
+    public function destroy(Phrasebook $phrasebook) {
+        if($phrasebook->removeFavorite()) {
             return $this->responseOk();
         }
     }

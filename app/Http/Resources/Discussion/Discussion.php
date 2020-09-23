@@ -25,6 +25,7 @@ class Discussion extends JsonResource {
             'topic'         => new TopicResource($this->whenLoaded('topic')),
             'user'          => new UserResource($this->whenLoaded('user')),
             'replies_count' => $this->replies_count,
+            'is_favorited'  => $this->is_favorited,
             'replies'       => $this->when(Route::currentRouteName() === 'discussion.show', function() {
                 return new ReplyCollection($this->whenLoaded('replies'));
             }),

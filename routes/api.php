@@ -13,6 +13,8 @@ use App\Http\Controllers\Discussion\DiscussionController;
 use App\Http\Controllers\Discussion\TopicController;
 use App\Http\Controllers\Discussion\ReplyController;
 use App\Http\Controllers\Discussion\FavoriteDiscussionController;
+use App\Http\Controllers\Discussion\FavoriteReplyController;
+use App\Http\Controllers\FavoritePhrasebookController;
 
 /*
 |---------------------------------------------------------------------------------
@@ -49,7 +51,14 @@ Route::get('/user', UserController::class)->name('user');
 |--------------------------------------------------------
 */
 Route::name('phrasebook.')->group(function() {
-    Route::apiResource('/phrasebook/category', PhrasebookCategoryController::class);
+    Route::prefix('/phrasebook')->group(function() {
+        Route::apiResource('/category', PhrasebookCategoryController::class);
+        /** Favorite phrasebook */
+        Route::post('/favorite/{phrasebook}', [FavoritePhrasebookController::class, 'store'])
+            ->name('favorite.store');
+        Route::delete('/favorite/{phrasebook}', [FavoritePhrasebookController::class, 'destroy'])
+            ->name('favorite.destroy');
+    });
 });
 Route::apiResource('/phrasebook', PhrasebookController::class)
     ->except(['show']);
@@ -65,10 +74,15 @@ Route::name('discussion.')->group(function() {
         Route::apiResource('{discussion}/reply', ReplyController::class)
             ->except(['index', 'show']);
         /** Favorite discussion */
-        Route::post('/{discussion}/favorite', [FavoriteDiscussionController::class, 'store'])
-        ->name('favorite.store');
-        Route::delete('/{discussion}/favorite', [FavoriteDiscussionController::class, 'destroy'])
-        ->name('favorite.destroy');
+        Route::post('/favorite/{discussion}', [FavoriteDiscussionController::class, 'store'])
+            ->name('favorite.store');
+        Route::delete('/favorite/{discussion}', [FavoriteDiscussionController::class, 'destroy'])
+            ->name('favorite.destroy');
+        /** Favorite reply */
+        Route::post('/reply/favorite/{reply}', [FavoriteReplyController::class, 'store'])
+            ->name('reply.favorite.store');
+        Route::delete('/reply/favorite/{reply}', [FavoriteReplyController::class, 'destroy'])
+            ->name('reply.favorite.destroy');
     });
 });
 Route::apiResource('/discussion', DiscussionController::class);
