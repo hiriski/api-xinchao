@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\SocialAccount;
-use App\Http\Resources\User as UserResource;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Models\SocialAccount;
+use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\User as UserResource;
 
 class SocialAccountController extends Controller
 {
@@ -42,7 +43,16 @@ class SocialAccountController extends Controller
             ]);
             $socialAccount->fill(['user_id' => $user->id])->save();
         }
+        $token = $user->createToken($user->email)->plainTextToken;
+        return $this->responseWithToken($token, $user);
+    }
 
-        return new UserResource($user);
+    protected function responseWithToken($token, $user) {
+        return response()->json([
+            'success'     => true,
+            'token'       => $token,
+            'token_type'  => 'bearer',
+            'user'        => new UserResource($user)
+        ], JsonResponse::HTTP_OK);
     }
 }
