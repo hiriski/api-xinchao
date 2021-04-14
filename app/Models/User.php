@@ -38,12 +38,18 @@ class User extends Authenticatable {
         'email_verified_at' => 'datetime',
     ];
 
+    protected $with = ['socialAccount'];
+
     /**
      * Get the key name for route model binding
      * @return string
      */
     public function getRouteKeyName() {
         return 'username';
+    }
+
+    public function socialAccount() {
+        return $this->hasOne(SocialAccount::class);
     }
 
     /**

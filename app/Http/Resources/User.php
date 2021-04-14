@@ -21,8 +21,12 @@ class User extends JsonResource {
                     'id' => $this->id,
                     'email' => $this->email,
             ]),
+            'id'        => $this->id,
             'name'      => $this->name,
+            'email'     => $this->email,
             'username'  => $this->username,
+            'social_account'    => new SocialAccount($this->whenLoaded('socialAccount')),
+            'created_at'    => $this->created_at,
         ];
     }
 }

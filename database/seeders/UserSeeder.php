@@ -23,7 +23,7 @@ class UserSeeder extends Seeder {
                 'id'        => 1,
                 'name'      => 'Riski',
                 'username'  => Str::slug('Riski'),
-                'email'     => 'xinchao@riski.web.id',
+                'email'     => 'hi@riski.me',
                 'password'  => Hash::make('secret')
             ),
             array(
