@@ -13,8 +13,7 @@ class CreatePhrasebookCategoriesTable extends Migration {
     public function up() {
         Schema::create('phrasebook_categories', function (Blueprint $table) {
             $table->tinyIncrements('id');
-            $table->string('title');
-            $table->string('slug')->unique();
+            $table->string('name');
         });
     }
 
