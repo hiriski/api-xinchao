@@ -17,14 +17,14 @@ class PhrasebookCategory extends JsonResource {
         if(Route::currentRouteName() === 'phrasebook.category.show') {
             return [
                 'id'        => $this->id,
-                'title'     => $this->title,
+                'name'      => $this->name,
                 'slug'      => $this->slug,
                 'phrases'   => new PhrasebookCollection($this->phrases)
             ];
         }
         return [
             'id'    => $this->id,
-            'title' => $this->title,
+            'name'  => $this->name,
             'slug'  => $this->slug,
         ];
     }

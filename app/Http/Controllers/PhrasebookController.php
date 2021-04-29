@@ -34,7 +34,7 @@ class PhrasebookController extends Controller {
      */
     public function store(PhraseRequest $request) {
         $phrase = $request->merge([
-            'created_by' => Auth::user()->id
+            'created_by' => auth()->id()
         ])->only([
             'id_ID', 'vi_VN', 'en_US', 'notes', 'category_id', 'created_by'
         ]);

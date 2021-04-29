@@ -3,10 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Auth\SocialAccountController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\LogoutController;
-use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\PhrasebookController;
 use App\Http\Controllers\PhrasebookCategoryController;
@@ -49,10 +45,11 @@ Route::get('/', function() {
 |--------------------------------------------------------
 */
 Route::prefix('/auth')->group(function() {
-    Route::post('/register', RegisterController::class)->name('register');
-    Route::post('/login', LoginController::class)->name('login');
-    Route::post('/logout', LogoutController::class)->name('logout');
-    Route::post('/social', SocialAccountController::class)->name('social');
+    Route::post('/social', App\Http\Controllers\Auth\SocialAccountController::class)->name('social');
+    Route::post('/register', App\Http\Controllers\Auth\RegisterController::class)->name('register');
+    Route::post('/login', App\Http\Controllers\Auth\LoginController::class)->name('login');
+    Route::post('/revoke-token', [App\Http\Controllers\Auth\AuthController::class, 'revokeToken'])->name('revoke-token');
+    Route::get('/get-authenticated-user', [App\Http\Controllers\Auth\AuthController::class, 'getAuthenticatedUser'])->name('get-authenticated-user');
 });
 
 /*

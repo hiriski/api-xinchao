@@ -17,7 +17,17 @@ class User extends Authenticatable {
      * @var array
      */
     protected $fillable = [
-        'name', 'username', 'email', 'password',
+        'name',
+        'username',
+        'email',
+        'password',
+        'photo_url',
+        'level_id',
+        'status_id',
+        'gender',
+        'phone_number',
+        'birthday',
+        'about'
     ];
 
     /**
@@ -36,9 +46,24 @@ class User extends Authenticatable {
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'level_id'          => 'integer',
+        'status_id'         => 'integer',
     ];
 
+    /**
+     * 
+     * @var array
+     */
     protected $with = ['socialAccount'];
+
+    /**
+     * 
+     * @var array
+     */
+    protected $attributes = [
+        'level_id'      => 1,
+        'status_id'     => 1,
+    ];
 
     /**
      * Get the key name for route model binding

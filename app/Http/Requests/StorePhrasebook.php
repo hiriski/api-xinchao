@@ -23,7 +23,6 @@ class StorePhrasebook extends ApiRequest {
         return [
             'id_ID' => ['required', 'string', 'max:120'],
             'vi_VN' => ['required', 'string', 'max:120'],
-            'category_id' => ['required', 'exists:phrasebook_categories,id']
         ];
     }
 }
