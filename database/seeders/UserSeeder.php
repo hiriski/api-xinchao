@@ -22,16 +22,6 @@ class UserSeeder extends Seeder {
         $defaultUsers = array(
             array(
                 'id'        => 1,
-                'name'      => 'Riski',
-                'username'  => Str::slug('Riski'),
-                'email'     => 'hi@riski.me',
-                'password'  => Hash::make('secret'),
-                'level_id'  => 1,
-                'status_id' => 1,
-                'created_at'=> Carbon::now(),
-            ),
-            array(
-                'id'        => 2,
                 'name'      => 'Admin',
                 'username'  => Str::slug('Admin'),
                 'email'     => 'xinchaodev@gmail.com',
