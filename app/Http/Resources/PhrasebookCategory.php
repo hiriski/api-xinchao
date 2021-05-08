@@ -1,9 +1,7 @@
 <?php
 
 namespace App\Http\Resources;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\PhrasebookCollection;
 
 class PhrasebookCategory extends JsonResource {
     /**
@@ -13,15 +11,6 @@ class PhrasebookCategory extends JsonResource {
      * @return array
      */
     public function toArray($request) {
-        // return parent::toArray($request);
-        if(Route::currentRouteName() === 'phrasebook.category.show') {
-            return [
-                'id'        => $this->id,
-                'name'      => $this->name,
-                'slug'      => $this->slug,
-                'phrases'   => new PhrasebookCollection($this->phrases)
-            ];
-        }
         return [
             'id'    => $this->id,
             'name'  => $this->name,

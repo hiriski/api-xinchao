@@ -46,6 +46,7 @@ class User extends Authenticatable {
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'birthday'          => 'datetime',
         'level_id'          => 'integer',
         'status_id'         => 'integer',
     ];
@@ -81,11 +82,8 @@ class User extends Authenticatable {
      * Relationship between User and Phrasebook 
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function phrases() {
-        return $this->hasMany(
-            Phrasebook::class,
-            'created_by'
-        );
+    public function phrasebooks() {
+        return $this->hasMany(Phrasebook::class, 'created_by');
     }
 
     /**
@@ -102,5 +100,13 @@ class User extends Authenticatable {
      */
     public function replies() {
         return $this->hasMany(Reply::class);
+    }
+
+    /**
+     * Relationship between a User and Level 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function level() {
+        return $this->belongsTo(Level::class);
     }
 }

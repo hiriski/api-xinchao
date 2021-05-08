@@ -19,6 +19,8 @@ class CreateSocialAccountsTable extends Migration
             $table->string('social_id');
             $table->string('social_provider');
             $table->string('social_name')->nullable();
+            /** social_email stored to users table. */
+            
             $table->string('social_photo_url')->nullable();
             $table->timestamps();
 

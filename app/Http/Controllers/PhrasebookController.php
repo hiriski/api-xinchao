@@ -22,7 +22,7 @@ class PhrasebookController extends Controller {
      */
     public function index() {
         return new PhrasebookCollection(
-            Phrasebook::paginate(20)
+            Phrasebook::all()
         );
     }
 
@@ -38,12 +38,8 @@ class PhrasebookController extends Controller {
         ])->only([
             'id_ID', 'vi_VN', 'en_US', 'notes', 'category_id', 'created_by'
         ]);
-        Phrasebook::create($phrase);
-        return $this->responseWithStatus(
-            true,
-            'Phrase created',
-            JsonResponse::HTTP_CREATED
-        );
+        $newPhrasebook = Phrasebook::create($phrase);
+        return new PhrasebookResource($newPhrasebook);
     }
 
     /**

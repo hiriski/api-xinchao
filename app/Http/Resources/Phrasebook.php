@@ -15,8 +15,10 @@ class Phrasebook extends JsonResource {
     public function toArray($request) {
         // return parent::toArray($request);
         return [
-            'id'        => $this->id,
-            'is_favorited' => $this->is_favorited,
+            'id'            => $this->id,
+            'is_favorited'  => $this->is_favorited,
+            'category_id'   => $this->category_id,
+            'created_by'    => $this->created_by,
             'text'      => [
                 'id'    => $this->id_ID,
                 'vi'    => $this->vi_VN,

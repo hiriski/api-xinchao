@@ -21,7 +21,8 @@ class LoginUser extends ApiRequest {
      */
     public function rules() {
         return [
-            'email'     => ['required', 'email', 'exists:users,email'],
+            'username'  => ['string'],
+            // 'email'     => ['email', 'exists:users,email'], // use username field instread
             'password'  => ['required'],
         ];
     }
