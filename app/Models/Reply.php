@@ -15,14 +15,14 @@ class Reply extends Model {
      * @var array
      */
     protected $fillable = [
-        'content',
+        'body',
         'user_id',
         'discussion_id',
     ];
 
     /**
      * Eager load relationship for every query
-     * 
+     *
      * @var array
      */
     protected $with = ['user'];
@@ -42,7 +42,7 @@ class Reply extends Model {
     }
 
     /**
-     * Relationship between a Reply and Discussion 
+     * Relationship between a Reply and Discussion
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function discussion() {

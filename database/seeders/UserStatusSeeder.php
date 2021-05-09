@@ -15,14 +15,14 @@ class UserStatusSeeder extends Seeder
     public function run()
     {
         $levels = [
-            '1' => 'Aktif',
+            '1' => 'Active',
             '2' => 'Inactive',
         ];
 
-        foreach ($levels as $id => $title) {
+        foreach ($levels as $id => $name) {
             UserStatus::create([
                 'id'    => (int) $id,
-                'name'  => $title, 
+                'name'  => $name,
             ]);
         }
     }

@@ -12,9 +12,16 @@ class PhrasebookCategory extends JsonResource {
      */
     public function toArray($request) {
         return [
-            'id'    => $this->id,
-            'name'  => $this->name,
-            'slug'  => $this->slug,
+            'id'        => $this->id,
+            'color'     => $this->color,
+            'icon_name' => $this->icon_name,
+            'icon_type' => $this->icon_type,
+            'text'      => [
+                'id'    => $this->id_ID,
+                'vi'    => $this->vi_VN,
+                'en'    => $this->en_US,
+                'description' => $this->description
+            ],
         ];
     }
 }

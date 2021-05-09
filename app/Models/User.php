@@ -52,13 +52,13 @@ class User extends Authenticatable {
     ];
 
     /**
-     * 
+     *
      * @var array
      */
     protected $with = ['socialAccount'];
 
     /**
-     * 
+     *
      * @var array
      */
     protected $attributes = [
@@ -67,7 +67,7 @@ class User extends Authenticatable {
     ];
 
     /**
-     * Get the key name for route model binding
+     * Get the key name for route model binding.
      * @return string
      */
     public function getRouteKeyName() {
@@ -79,7 +79,7 @@ class User extends Authenticatable {
     }
 
     /**
-     * Relationship between User and Phrasebook 
+     * Relationship between User and Phrasebook (creator).
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function phrasebooks() {
@@ -87,7 +87,7 @@ class User extends Authenticatable {
     }
 
     /**
-     * Relationship between a User and Discussion 
+     * Relationship between a User and Discussion.
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function discussions() {
@@ -95,7 +95,7 @@ class User extends Authenticatable {
     }
 
     /**
-     * Relationship between a User and Reply 
+     * Relationship between a User and Reply.
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function replies() {
@@ -103,10 +103,18 @@ class User extends Authenticatable {
     }
 
     /**
-     * Relationship between a User and Level 
+     * Relationship between a User and Level.
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function level() {
         return $this->belongsTo(Level::class);
+    }
+
+    /**
+     * Relationship between a User and PhrasebookCategory.
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function categories() {
+        return $this->hasMany(PhrasebookCategory::class);
     }
 }

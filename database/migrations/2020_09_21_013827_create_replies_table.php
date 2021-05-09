@@ -14,7 +14,7 @@ class CreateRepliesTable extends Migration
     public function up() {
         Schema::create('replies', function (Blueprint $table) {
             $table->id();
-            $table->text('content');
+            $table->text('body');
             $table->timestamps();
 
             /** foreign keys */

@@ -12,8 +12,19 @@ class CreatePhrasebookCategoriesTable extends Migration {
      */
     public function up() {
         Schema::create('phrasebook_categories', function (Blueprint $table) {
-            $table->tinyIncrements('id');
-            $table->string('name');
+            $table->increments('id');
+            $table->string('id_ID')->nullable();
+            $table->string('vi_VN')->nullable();
+            $table->string('en_US')->nullable();
+            $table->text('description')->nullable();
+            $table->string('color_id')->nullable();
+            $table->string('icon_name')->nullable();
+            $table->enum('icon_type', ['eva', 'material_icons', 'ant_design'])->nullable();
+            $table->unsignedBigInteger('user_id');
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users');
         });
     }
 

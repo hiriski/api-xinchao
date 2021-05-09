@@ -25,10 +25,10 @@ class CreateUsersTable extends Migration
             $table->unsignedTinyInteger('level_id');
             $table->unsignedTinyInteger('status_id');
             $table->string('phone_number')->nullable();
-            $table->enum('gender', ['male', 'female', 'none']);
+            $table->enum('gender', ['male', 'female', 'none'])->nullable();
             $table->unsignedBigInteger('contribution_point')->default(0);
             $table->text('about')->nullable();
-            $table->timestamp('birthday')->nullable();
+            $table->date('birthday')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
