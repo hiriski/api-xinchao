@@ -17,7 +17,17 @@ class User extends Authenticatable {
      * @var array
      */
     protected $fillable = [
-        'name', 'username', 'email', 'password',
+        'name',
+        'username',
+        'email',
+        'password',
+        'photo_url',
+        'level_id',
+        'status_id',
+        'gender',
+        'phone_number',
+        'birthday',
+        'about'
     ];
 
     /**
@@ -36,12 +46,28 @@ class User extends Authenticatable {
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'birthday'          => 'datetime',
+        'level_id'          => 'integer',
+        'status_id'         => 'integer',
     ];
 
+    /**
+     *
+     * @var array
+     */
     protected $with = ['socialAccount'];
 
     /**
-     * Get the key name for route model binding
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'level_id'      => 1,
+        'status_id'     => 1,
+    ];
+
+    /**
+     * Get the key name for route model binding.
      * @return string
      */
     public function getRouteKeyName() {
@@ -53,18 +79,15 @@ class User extends Authenticatable {
     }
 
     /**
-     * Relationship between User and Phrasebook 
+     * Relationship between User and Phrasebook (creator).
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function phrases() {
-        return $this->hasMany(
-            Phrasebook::class,
-            'created_by'
-        );
+    public function phrasebooks() {
+        return $this->hasMany(Phrasebook::class, 'created_by');
     }
 
     /**
-     * Relationship between a User and Discussion 
+     * Relationship between a User and Discussion.
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function discussions() {
@@ -72,10 +95,26 @@ class User extends Authenticatable {
     }
 
     /**
-     * Relationship between a User and Reply 
+     * Relationship between a User and Reply.
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function replies() {
         return $this->hasMany(Reply::class);
+    }
+
+    /**
+     * Relationship between a User and Level.
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function level() {
+        return $this->belongsTo(Level::class);
+    }
+
+    /**
+     * Relationship between a User and PhrasebookCategory.
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function categories() {
+        return $this->hasMany(PhrasebookCategory::class);
     }
 }

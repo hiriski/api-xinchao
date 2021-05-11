@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Models\Phrasebook;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\StorePhrasebook as PhraseRequest;
 use App\Http\Resources\PhrasebookCollection;
@@ -18,12 +19,17 @@ class PhrasebookController extends Controller {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return PhrasebookCollection
      */
-    public function index() {
-        return new PhrasebookCollection(
-            Phrasebook::paginate(20)
-        );
+    public function index(Request $request) {
+        $phrases = null;
+        if(!$request->category_id) {
+            $phrases = Phrasebook::all();
+        } else {
+            $phrases = Phrasebook::where('category_id', $request->category_id)->get();
+        }
+        return new PhrasebookCollection($phrases);
     }
 
     /**
@@ -34,16 +40,12 @@ class PhrasebookController extends Controller {
      */
     public function store(PhraseRequest $request) {
         $phrase = $request->merge([
-            'created_by' => Auth::user()->id
+            'created_by' => auth()->id()
         ])->only([
             'id_ID', 'vi_VN', 'en_US', 'notes', 'category_id', 'created_by'
         ]);
-        Phrasebook::create($phrase);
-        return $this->responseWithStatus(
-            true,
-            'Phrase created',
-            JsonResponse::HTTP_CREATED
-        );
+        $newPhrasebook = Phrasebook::create($phrase);
+        return new PhrasebookResource($newPhrasebook);
     }
 
     /**
@@ -73,7 +75,7 @@ class PhrasebookController extends Controller {
 
         $userId = auth()->id();
         $phrase->updated_by = $phrase->created_by !== $userId ? $userId : null;
-        
+
         $phrase->save();
         return $this->responseWithStatus(
             true,

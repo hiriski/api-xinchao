@@ -21,8 +21,9 @@ class StorePhrasebookCategory extends ApiRequest {
      */
     public function rules() {
         return [
-            'title' => ['string', 'max:150', 'unique:phrasebook_categories,title'],
-            'slug'  => ['string', 'unique:phrasebook_categories,slug'],
+            'id_ID'     => ['string', 'max:150'],
+            'vi_VN'     => ['string', 'max:150'],
+            'en_US'     => ['string', 'max:150'],
         ];
     }
 }

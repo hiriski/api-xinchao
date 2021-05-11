@@ -9,17 +9,27 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\User as UserResource;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use App\Http\Requests\Auth\LoginUser as LoginRequest;
+use Auth;
 
 class LoginController extends Controller {
     
     public function __invoke(LoginRequest $request) {
-        $user = User::where('email', $request->email)->first();
+
+        $user            = null;
+        $deviceName      = $request->device_name;
+        $usernameOrEmail = $request->username_or_email;
+        $tokenName       = $deviceName !== null ? $deviceName : $usernameOrEmail;
+
+        $user = filter_var($usernameOrEmail, FILTER_VALIDATE_EMAIL)
+            ? User::where('email', $usernameOrEmail)->first()
+            : User::where('username', $usernameOrEmail)->first();
+
         if (! $user || ! Hash::check($request->password, $user->password)) {
             $this->incorrectCredentials(
                 'The provided credentials are incorrect.'
             );
         }
-        $token = $user->createToken($request->email)->plainTextToken;
+        $token = $user->createToken($tokenName)->plainTextToken;
         return $this->responseWithToken($token, $user);
     }
 

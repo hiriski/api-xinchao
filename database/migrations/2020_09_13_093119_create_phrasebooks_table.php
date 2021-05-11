@@ -15,16 +15,17 @@ class CreatePhrasebooksTable extends Migration {
             $table->id();
             $table->string('id_ID')->comment('Bahasa Indonesia');
             $table->string('vi_VN')->comment('Tiếng Việt');
-            $table->string('en_US')->nullable()->comment('(Optional) American English');
+            $table->string('en_US')->nullable()->comment('(Optional) English');
             $table->text('notes')->nullable();
-            $table->unsignedBigInteger('created_by')->comment('Creator of this phrase');
+            $table->unsignedBigInteger('created_by')
+                ->comment('Creator of this phrase');
             $table->unsignedBigInteger('updated_by')->nullable()
                 ->comment('User who renew of this phrase');
-            $table->unsignedTinyInteger('category_id');
+            $table->unsignedInteger('category_id');
 
             $table->softDeletes();
             $table->timestamps();
-            
+
             $table->foreign('created_by')
                 ->references('id')->on('users')->onDelete('cascade');
 

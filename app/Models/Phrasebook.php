@@ -25,6 +25,20 @@ class Phrasebook extends Model {
     ];
 
     /**
+     * @var array
+     */
+    protected $casts = [
+        'category_id'  => 'integer',
+    ];
+
+    /**
+     * @var array
+     */
+    protected $attributes = [
+        'category_id'  => 1, // Uncategory
+    ];
+
+    /**
      * Relationship between Phrasebook and User (created_by)
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

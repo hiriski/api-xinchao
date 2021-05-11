@@ -15,7 +15,7 @@ class RegisterController extends Controller {
     public function __invoke(RegisterRequest $request) {
         $credentials = $request->merge([
             'password'  => Hash::make($request->password),
-        ])->only('name', 'username', 'email', 'password');
+        ])->only(['name', 'username', 'email', 'password']);
 
         $credentials['username'] = $request->username !== null
             ? Str::slug($request->username)

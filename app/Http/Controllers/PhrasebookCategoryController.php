@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\JsonResponse;
-use App\Models\PhrasebookCategory as Category;
-use App\Http\Resources\PhrasebookCategory as CategoryResource;
-use App\Http\Requests\StorePhrasebookCategory as CategoryRequest;
-use App\Http\Resources\PhrasebookCategoryCollection as CategoryCollection;
+use App\Models\PhrasebookCategory;
+use App\Http\Requests\StorePhrasebookCategory;
+use App\Http\Resources\PhrasebookCategory as PhrasebookCategoryResource;
+use App\Http\Resources\PhrasebookCategoryCollection;
 
 class PhrasebookCategoryController extends Controller {
 
@@ -16,86 +16,80 @@ class PhrasebookCategoryController extends Controller {
             'index', 'show'
         ]);
     }
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return PhrasebookCategoryCollection
      */
     public function index() {
-        return new CategoryCollection(Category::all());
+        $categories = PhrasebookCategory::all();
+        return new PhrasebookCategoryCollection($categories);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\CategoryRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StorePhrasebookCategory $request
+     * @return PhrasebookCategoryResource
      */
-    public function store(CategoryRequest $request) {
-        $category = new Category;
-        $category->title = $request->title;
-        $category->slug = Str::slug($request->title, '-');
-        $category->save();
-
-        return $this->responseWithStatus(
-            true,
-            'Category created',
-            JsonResponse::HTTP_CREATED
-        );
+    public function store(StorePhrasebookCategory $request) {
+        try {
+            $data = $request->only([
+                'id_ID', 'vi_VN', 'en_US', 'description', 'color_id', 'icon_name', 'icon_type', 'user_id'
+            ]);
+            $category = auth()->user()->categories()->create($data);
+            return new PhrasebookCategoryResource($category);
+        } catch (Exception $e) {
+            return response()->json([
+                'message'   => $e->getMessage()
+            ]);
+        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  String  $slug
-     * @return \Illuminate\Http\Response
+     * @param PhrasebookCategory $phrase
+     * @return PhrasebookCategoryResource
      */
-    public function show($slug) {
-        return new CategoryResource(
-            Category::where('slug', $slug)->firstOrFail()
+    public function show(PhrasebookCategory $phrase) {
+        return new PhrasebookCategoryResource(
+            Category::firstOrFail($phrase)
         );
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\CategoryRequest  $request
-     * @param  String  $slug
-     * @return \Illuminate\Http\Response
+     * @param StorePhrasebookCategory $request
+     * @param Integer $id
+     * @return PhrasebookCategoryResource
      */
-    public function update(CategoryRequest $request, $slug) {
-        $category = Category::where('slug', $slug)->firstOrFail();
-        $category->title = $request->title;
-        $category->slug = Str::slug($request->title);
-        $category->save();
-        return $this->responseWithStatus(
-            true,
-            'Category updated!',
-            JsonResponse::HTTP_OK
-        );
+    public function update(StorePhrasebookCategory $request, $id) {
+        try {
+            $data = $request->all();
+            $category = PhrasebookCategory::findOrfail($id);
+            $category->update($data);
+            return new PhrasebookCategoryResource($category);
+        } catch (Exception $e) {
+            return response()->json([
+                'message'   => $e->getMessage()
+            ]);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param PhrasebookCategory $phrase
+     * @return JsonResponse
+     * @throws \Exception
      */
-    public function destroy($slug) {
-        $category = Category::where('slug', $slug)->firstOrFail();
-        $category->delete();
-        return $this->responseWithStatus(
-            true,
-            'Category deleted',
-            JsonResponse::HTTP_OK
-            // JsonResponse::HTTP_NO_CONTENT
-        );
-    }
-
-    private function responseWithStatus($status, $message, $code) {
+    public function destroy(PhrasebookCategory $phrase) {
+        $phrase->delete();
         return response()->json([
-            'success'   => $status,
-            'message'   => $message,
-        ], $code);
+            'message'   => 'Ok'
+        ]);
     }
 }
