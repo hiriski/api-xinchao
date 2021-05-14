@@ -3,7 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\PhrasebookController;
 use App\Http\Controllers\PhrasebookCategoryController;
 use App\Http\Controllers\Discussion\DiscussionController;
@@ -12,6 +11,9 @@ use App\Http\Controllers\Discussion\ReplyController;
 use App\Http\Controllers\Discussion\FavoriteDiscussionController;
 use App\Http\Controllers\Discussion\FavoriteReplyController;
 use App\Http\Controllers\FavoritePhrasebookController;
+use App\Http\Controllers\ConversationController;
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\UserController;
 
 /*
 |---------------------------------------------------------------------------------
@@ -57,7 +59,8 @@ Route::prefix('/auth')->group(function() {
 | A User Routes
 |--------------------------------------------------------
 */
-Route::get('/user', UserController::class)->name('user');
+Route::get('/user/{id}', [UserController::class, 'show']);
+Route::get('/user', [UserController::class, 'index']);
 
 /*
 |--------------------------------------------------------
@@ -100,3 +103,13 @@ Route::name('discussion.')->group(function() {
     });
 });
 Route::apiResource('/discussion', DiscussionController::class);
+
+/*
+|--------------------------------------------------------
+| Conversations Message.
+|--------------------------------------------------------
+*/
+Route::post('/conversation/send-first-message/{toUserId}', [MessageController::class, 'firstMessage']);
+Route::get('/conversation', [ConversationController::class, 'index']);
+Route::post('/message/{conversationId}', [MessageController::class, 'send']);
+Route::get('/message/{conversationId}', [MessageController::class, 'fetch']);

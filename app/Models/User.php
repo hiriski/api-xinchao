@@ -117,4 +117,8 @@ class User extends Authenticatable {
     public function categories() {
         return $this->hasMany(PhrasebookCategory::class);
     }
+
+    public function conversations() {
+        return $this->belongsToMany(Conversation::class, 'conversation_to_user');
+    }
 }
