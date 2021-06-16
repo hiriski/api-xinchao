@@ -26,7 +26,7 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', function() {
+Route::get('/', function () {
     return response()->json([
         'app_name'          => 'Xin Chao 👋',
         'message'           => 'Application is Running...',
@@ -46,7 +46,7 @@ Route::get('/', function() {
 | Authentication Routes
 |--------------------------------------------------------
 */
-Route::prefix('/auth')->group(function() {
+Route::prefix('/auth')->group(function () {
     Route::post('/social', App\Http\Controllers\Auth\SocialAccountController::class)->name('social');
     Route::post('/register', App\Http\Controllers\Auth\RegisterController::class)->name('register');
     Route::post('/login', App\Http\Controllers\Auth\LoginController::class)->name('login');
@@ -67,8 +67,8 @@ Route::get('/user', [UserController::class, 'index']);
 | Phrasebook Routes
 |--------------------------------------------------------
 */
-Route::name('phrasebook.')->group(function() {
-    Route::prefix('/phrasebook')->group(function() {
+Route::name('phrasebook.')->group(function () {
+    Route::prefix('/phrasebook')->group(function () {
         Route::apiResource('/category', PhrasebookCategoryController::class);
         /** Favorite phrasebook */
         Route::post('/favorite/{phrasebook}', [FavoritePhrasebookController::class, 'store'])
@@ -85,8 +85,8 @@ Route::apiResource('/phrasebook', PhrasebookController::class)
 | Discussion/Thread Routes
 |--------------------------------------------------------
 */
-Route::name('discussion.')->group(function() {
-    Route::prefix('/discussion')->group(function() {
+Route::name('discussion.')->group(function () {
+    Route::prefix('/discussion')->group(function () {
         Route::apiResource('/topic', TopicController::class);
         Route::apiResource('{discussion}/reply', ReplyController::class)
             ->except(['index', 'show']);

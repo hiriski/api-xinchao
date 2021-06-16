@@ -6,7 +6,8 @@ use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class PhrasebookCategorySeeder extends Seeder {
+class PhrasebookCategorySeeder extends Seeder
+{
 
     /**
      * Table name
@@ -19,7 +20,8 @@ class PhrasebookCategorySeeder extends Seeder {
      *
      * @return void
      */
-    public function run() {
+    public function run()
+    {
         DB::table($this->tableName)->delete();
         $categories = array(
             array('id' => 1,    'name' => 'Uncategory'),

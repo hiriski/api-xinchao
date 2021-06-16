@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PhrasebookCategory extends Model {
+class PhrasebookCategory extends Model
+{
     use HasFactory;
 
     protected $fillable = [
@@ -13,6 +14,7 @@ class PhrasebookCategory extends Model {
         'vi_VN',
         'en_US',
         'description',
+        'slug',
         'color_id',
         'icon_name',
         'icon_type',
@@ -34,11 +36,29 @@ class PhrasebookCategory extends Model {
         'icon_type'   => 'eva',
     ];
 
+    protected $appends = ['phrases_count'];
+
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    public function getPhrasesCountAttribute()
+    {
+        return $this->phrases->count();
+    }
+
     /**
      * Relationship between a PhrasebookCategory and Phrasebook.
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function phrases() {
+    public function phrases()
+    {
         return $this->hasMany(Phrasebook::class, 'category_id');
     }
 
@@ -46,7 +66,8 @@ class PhrasebookCategory extends Model {
      * Relations between a PhrasebookCategory and Color.
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function color() {
+    public function color()
+    {
         return $this->belongsTo(Color::class, 'color_id');
     }
 
@@ -54,7 +75,8 @@ class PhrasebookCategory extends Model {
      * Relations between a PhrasebookCategory and User.
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 }

@@ -4,15 +4,19 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Models\Phrasebook;
+use App\Models\PhrasebookCategory;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\StorePhrasebook as PhraseRequest;
 use App\Http\Resources\PhrasebookCollection;
 use App\Http\Resources\Phrasebook as PhrasebookResource;
+use App\Http\Resources\PhrasebookCategory as PhrasebookCategoryResource;
 
-class PhrasebookController extends Controller {
+class PhrasebookController extends Controller
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth:sanctum')->except(['index']);
     }
 
@@ -22,12 +26,19 @@ class PhrasebookController extends Controller {
      * @param Request $request
      * @return PhrasebookCollection
      */
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         $phrases = null;
-        if(!$request->category_id) {
-            $phrases = Phrasebook::all();
+        if ($request->category) {
+            $category = PhrasebookCategory::where('slug', $request->category)
+                ->first();
+            $phrasebooks = Phrasebook::where('category_id', $category->id)->get();
+            return response()->json([
+                'phrasebooks' => new PhrasebookCollection($phrasebooks),
+                'category'    => new PhrasebookCategoryResource($category)
+            ]);
         } else {
-            $phrases = Phrasebook::where('category_id', $request->category_id)->get();
+            $phrases = Phrasebook::all();
         }
         return new PhrasebookCollection($phrases);
     }
@@ -38,7 +49,8 @@ class PhrasebookController extends Controller {
      * @param  App\Http\Requests\StorePhrasebook  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PhraseRequest $request) {
+    public function store(PhraseRequest $request)
+    {
         $phrase = $request->merge([
             'created_by' => auth()->id()
         ])->only([
@@ -65,7 +77,8 @@ class PhrasebookController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(PhraseRequest $request, $id) {
+    public function update(PhraseRequest $request, $id)
+    {
         $phrase = Phrasebook::findOrFail($id);
         $phrase->id_ID = $request->json('id_ID');
         $phrase->vi_VN = $request->json('vi_VN');
@@ -90,7 +103,8 @@ class PhrasebookController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
         $phrase = Phrasebook::findOrFail($id);
         $phrase->delete();
         return $this->responseWithStatus(
@@ -101,7 +115,8 @@ class PhrasebookController extends Controller {
         );
     }
 
-    private function responseWithStatus($status, $message, $code) {
+    private function responseWithStatus($status, $message, $code)
+    {
         return response()->json([
             'success'   => $status,
             'message'   => $message,

@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use App\Favoritable;
 
-class Phrasebook extends Model {
+class Phrasebook extends Model
+{
     use HasFactory, SoftDeletes, Favoritable;
 
     /**
@@ -42,15 +43,17 @@ class Phrasebook extends Model {
      * Relationship between Phrasebook and User (created_by)
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function creator() {
+    public function creator()
+    {
         return $this->belongsTo(User::class, 'created_by');
     }
 
     /**
-    * Relationship between Phrasebook and User (updated_by)
-    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-    */
-    public function updator() {
+     * Relationship between Phrasebook and User (updated_by)
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function updator()
+    {
         return $this->belongsTo(User::class, 'updated_by');
     }
 
@@ -58,8 +61,8 @@ class Phrasebook extends Model {
      * Relationship between Phrasebook and Category
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function category() {
+    public function category()
+    {
         return $this->belongsTo(PhrasebookCategory::class);
     }
-
 }

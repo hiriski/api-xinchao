@@ -1,21 +1,26 @@
 <?php
 
 namespace App\Http\Resources;
+
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PhrasebookCategory extends JsonResource {
+class PhrasebookCategory extends JsonResource
+{
     /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function toArray($request) {
+    public function toArray($request)
+    {
         return [
             'id'        => $this->id,
             'color'     => $this->color,
             'icon_name' => $this->icon_name,
             'icon_type' => $this->icon_type,
+            'slug'      => $this->slug,
+            'phrases_count' => $this->phrases_count,
             'text'      => [
                 'id'    => $this->id_ID,
                 'vi'    => $this->vi_VN,
