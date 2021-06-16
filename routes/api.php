@@ -41,75 +41,80 @@ Route::get('/', function () {
     ]);
 });
 
-/*
-|--------------------------------------------------------
-| Authentication Routes
-|--------------------------------------------------------
-*/
-Route::prefix('/auth')->group(function () {
-    Route::post('/social', App\Http\Controllers\Auth\SocialAccountController::class)->name('social');
-    Route::post('/register', App\Http\Controllers\Auth\RegisterController::class)->name('register');
-    Route::post('/login', App\Http\Controllers\Auth\LoginController::class)->name('login');
-    Route::post('/revoke-token', [App\Http\Controllers\Auth\AuthController::class, 'revokeToken'])->name('revoke-token');
-    Route::get('/get-authenticated-user', [App\Http\Controllers\Auth\AuthController::class, 'getAuthenticatedUser'])->name('get-authenticated-user');
-});
 
-/*
-|--------------------------------------------------------
-| A User Routes
-|--------------------------------------------------------
-*/
-Route::get('/user/{id}', [UserController::class, 'show']);
-Route::get('/user', [UserController::class, 'index']);
+/** Cors middleware */
+Route::middleware(['cors'])->group(function () {
 
-/*
-|--------------------------------------------------------
-| Phrasebook Routes
-|--------------------------------------------------------
-*/
-Route::name('phrasebook.')->group(function () {
-    Route::prefix('/phrasebook')->group(function () {
-        Route::apiResource('/category', PhrasebookCategoryController::class);
-        /** Favorite phrasebook */
-        Route::post('/favorite/{phrasebook}', [FavoritePhrasebookController::class, 'store'])
-            ->name('favorite.store');
-        Route::delete('/favorite/{phrasebook}', [FavoritePhrasebookController::class, 'destroy'])
-            ->name('favorite.destroy');
+    /*
+    |--------------------------------------------------------
+    | Authentication Routes
+    |--------------------------------------------------------
+    */
+    Route::prefix('/auth')->group(function () {
+        Route::post('/social', App\Http\Controllers\Auth\SocialAccountController::class)->name('social');
+        Route::post('/register', App\Http\Controllers\Auth\RegisterController::class)->name('register');
+        Route::post('/login', App\Http\Controllers\Auth\LoginController::class)->name('login');
+        Route::post('/revoke-token', [App\Http\Controllers\Auth\AuthController::class, 'revokeToken'])->name('revoke-token');
+        Route::get('/get-authenticated-user', [App\Http\Controllers\Auth\AuthController::class, 'getAuthenticatedUser'])->name('get-authenticated-user');
     });
-});
-Route::apiResource('/phrasebook', PhrasebookController::class)
-    ->except(['show']);
 
-/*
-|--------------------------------------------------------
-| Discussion/Thread Routes
-|--------------------------------------------------------
-*/
-Route::name('discussion.')->group(function () {
-    Route::prefix('/discussion')->group(function () {
-        Route::apiResource('/topic', TopicController::class);
-        Route::apiResource('{discussion}/reply', ReplyController::class)
-            ->except(['index', 'show']);
-        /** Favorite discussion */
-        Route::post('/favorite/{discussion}', [FavoriteDiscussionController::class, 'store'])
-            ->name('favorite.store');
-        Route::delete('/favorite/{discussion}', [FavoriteDiscussionController::class, 'destroy'])
-            ->name('favorite.destroy');
-        /** Favorite reply */
-        Route::post('/reply/favorite/{reply}', [FavoriteReplyController::class, 'store'])
-            ->name('reply.favorite.store');
-        Route::delete('/reply/favorite/{reply}', [FavoriteReplyController::class, 'destroy'])
-            ->name('reply.favorite.destroy');
+    /*
+    |--------------------------------------------------------
+    | A User Routes
+    |--------------------------------------------------------
+    */
+    Route::get('/user/{id}', [UserController::class, 'show']);
+    Route::get('/user', [UserController::class, 'index']);
+
+    /*
+    |--------------------------------------------------------
+    | Phrasebook Routes
+    |--------------------------------------------------------
+    */
+    Route::name('phrasebook.')->group(function () {
+        Route::prefix('/phrasebook')->group(function () {
+            Route::apiResource('/category', PhrasebookCategoryController::class);
+            /** Favorite phrasebook */
+            Route::post('/favorite/{phrasebook}', [FavoritePhrasebookController::class, 'store'])
+                ->name('favorite.store');
+            Route::delete('/favorite/{phrasebook}', [FavoritePhrasebookController::class, 'destroy'])
+                ->name('favorite.destroy');
+        });
     });
-});
-Route::apiResource('/discussion', DiscussionController::class);
+    Route::apiResource('/phrasebook', PhrasebookController::class)
+        ->except(['show']);
 
-/*
-|--------------------------------------------------------
-| Conversations Message.
-|--------------------------------------------------------
-*/
-Route::post('/conversation/send-first-message/{toUserId}', [MessageController::class, 'firstMessage']);
-Route::get('/conversation', [ConversationController::class, 'index']);
-Route::post('/message/{conversationId}', [MessageController::class, 'send']);
-Route::get('/message/{conversationId}', [MessageController::class, 'fetch']);
+    /*
+    |--------------------------------------------------------
+    | Discussion/Thread Routes
+    |--------------------------------------------------------
+    */
+    Route::name('discussion.')->group(function () {
+        Route::prefix('/discussion')->group(function () {
+            Route::apiResource('/topic', TopicController::class);
+            Route::apiResource('{discussion}/reply', ReplyController::class)
+                ->except(['index', 'show']);
+            /** Favorite discussion */
+            Route::post('/favorite/{discussion}', [FavoriteDiscussionController::class, 'store'])
+                ->name('favorite.store');
+            Route::delete('/favorite/{discussion}', [FavoriteDiscussionController::class, 'destroy'])
+                ->name('favorite.destroy');
+            /** Favorite reply */
+            Route::post('/reply/favorite/{reply}', [FavoriteReplyController::class, 'store'])
+                ->name('reply.favorite.store');
+            Route::delete('/reply/favorite/{reply}', [FavoriteReplyController::class, 'destroy'])
+                ->name('reply.favorite.destroy');
+        });
+    });
+    Route::apiResource('/discussion', DiscussionController::class);
+
+    /*
+    |--------------------------------------------------------
+    | Conversations Message.
+    |--------------------------------------------------------
+    */
+    Route::post('/conversation/send-first-message/{toUserId}', [MessageController::class, 'firstMessage']);
+    Route::get('/conversation', [ConversationController::class, 'index']);
+    Route::post('/message/{conversationId}', [MessageController::class, 'send']);
+    Route::get('/message/{conversationId}', [MessageController::class, 'fetch']);
+});
