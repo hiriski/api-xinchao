@@ -22,6 +22,7 @@ class CreatePhrasebookCategoriesTable extends Migration
             $table->text('description')->nullable();
             $table->string('color_id')->nullable();
             $table->string('icon_name')->nullable();
+            $table->string('material_icon_name')->nullable();
             $table->enum('icon_type', ['eva', 'material_icons', 'ant_design'])->nullable();
             $table->unsignedBigInteger('user_id');
 
