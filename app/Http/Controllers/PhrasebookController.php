@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\StorePhrasebook as PhraseRequest;
 use App\Http\Resources\PhrasebookCollection;
+use App\Http\Resources\PhrasebookComplexCollection;
 use App\Http\Resources\Phrasebook as PhrasebookResource;
 use App\Http\Resources\PhrasebookCategory as PhrasebookCategoryResource;
 
@@ -29,12 +30,21 @@ class PhrasebookController extends Controller
     public function index(Request $request)
     {
         $phrases = null;
+
+        if ($request->latest) {
+            $phrases = Phrasebook::orderBy('id', 'desc')
+                ->with(['creator'])
+                ->take($request->latest)
+                ->get();
+            return new PhrasebookComplexCollection($phrases);
+        }
+
         if ($request->category) {
             $category = PhrasebookCategory::where('slug', $request->category)
                 ->first();
             $phrasebooks = Phrasebook::where('category_id', $category->id)->get();
             return response()->json([
-                'phrasebooks' => new PhrasebookCollection($phrasebooks),
+                'phrasebooks' => new PhrasebookComplexCollection($phrasebooks),
                 'category'    => new PhrasebookCategoryResource($category)
             ]);
         } else {

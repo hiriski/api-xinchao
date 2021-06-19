@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class PhrasebookCategoryCollection extends ResourceCollection
+class PhrasebookComplexCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -14,7 +14,6 @@ class PhrasebookCategoryCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        // return parent::toArray($request);
-        return $this->collection;
+        return parent::toArray($request);
     }
 }

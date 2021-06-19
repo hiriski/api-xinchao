@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->boolean('verified')->default(false);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('photo_url')->nullable();
+            $table->string('cover_photo_url')->nullable();
             $table->unsignedTinyInteger('level_id');
             $table->unsignedTinyInteger('status_id');
             $table->string('phone_number')->nullable();

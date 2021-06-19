@@ -8,7 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable {
+class User extends Authenticatable
+{
     use HasFactory, Notifiable, HasApiTokens;
 
     /**
@@ -22,6 +23,7 @@ class User extends Authenticatable {
         'email',
         'password',
         'photo_url',
+        'cover_photo_url',
         'level_id',
         'status_id',
         'gender',
@@ -70,11 +72,13 @@ class User extends Authenticatable {
      * Get the key name for route model binding.
      * @return string
      */
-    public function getRouteKeyName() {
+    public function getRouteKeyName()
+    {
         return 'username';
     }
 
-    public function socialAccount() {
+    public function socialAccount()
+    {
         return $this->hasOne(SocialAccount::class);
     }
 
@@ -82,7 +86,8 @@ class User extends Authenticatable {
      * Relationship between User and Phrasebook (creator).
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function phrasebooks() {
+    public function phrasebooks()
+    {
         return $this->hasMany(Phrasebook::class, 'created_by');
     }
 
@@ -90,7 +95,8 @@ class User extends Authenticatable {
      * Relationship between a User and Discussion.
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function discussions() {
+    public function discussions()
+    {
         return $this->hasMany(Discussion::class);
     }
 
@@ -98,7 +104,8 @@ class User extends Authenticatable {
      * Relationship between a User and Reply.
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function replies() {
+    public function replies()
+    {
         return $this->hasMany(Reply::class);
     }
 
@@ -106,7 +113,8 @@ class User extends Authenticatable {
      * Relationship between a User and Level.
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function level() {
+    public function level()
+    {
         return $this->belongsTo(Level::class);
     }
 
@@ -114,11 +122,13 @@ class User extends Authenticatable {
      * Relationship between a User and PhrasebookCategory.
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function categories() {
+    public function categories()
+    {
         return $this->hasMany(PhrasebookCategory::class);
     }
 
-    public function conversations() {
+    public function conversations()
+    {
         return $this->belongsToMany(Conversation::class, 'conversation_to_user');
     }
 }

@@ -9,9 +9,11 @@ use App\Http\Requests\StorePhrasebookCategory;
 use App\Http\Resources\PhrasebookCategory as PhrasebookCategoryResource;
 use App\Http\Resources\PhrasebookCategoryCollection;
 
-class PhrasebookCategoryController extends Controller {
+class PhrasebookCategoryController extends Controller
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth:sanctum')->except([
             'index', 'show'
         ]);
@@ -22,7 +24,8 @@ class PhrasebookCategoryController extends Controller {
      *
      * @return PhrasebookCategoryCollection
      */
-    public function index() {
+    public function index()
+    {
         $categories = PhrasebookCategory::all();
         return new PhrasebookCategoryCollection($categories);
     }
@@ -33,7 +36,8 @@ class PhrasebookCategoryController extends Controller {
      * @param StorePhrasebookCategory $request
      * @return PhrasebookCategoryResource
      */
-    public function store(StorePhrasebookCategory $request) {
+    public function store(StorePhrasebookCategory $request)
+    {
         try {
             $data = $request->only([
                 'id_ID', 'vi_VN', 'en_US', 'description', 'color_id', 'icon_name', 'icon_type', 'user_id'
@@ -53,9 +57,10 @@ class PhrasebookCategoryController extends Controller {
      * @param PhrasebookCategory $phrase
      * @return PhrasebookCategoryResource
      */
-    public function show(PhrasebookCategory $phrase) {
+    public function show(PhrasebookCategory $phrase)
+    {
         return new PhrasebookCategoryResource(
-            Category::firstOrFail($phrase)
+            PhrasebookCategory::firstOrFail($phrase)
         );
     }
 
@@ -66,7 +71,8 @@ class PhrasebookCategoryController extends Controller {
      * @param Integer $id
      * @return PhrasebookCategoryResource
      */
-    public function update(StorePhrasebookCategory $request, $id) {
+    public function update(StorePhrasebookCategory $request, $id)
+    {
         try {
             $data = $request->all();
             $category = PhrasebookCategory::findOrfail($id);
@@ -86,7 +92,8 @@ class PhrasebookCategoryController extends Controller {
      * @return JsonResponse
      * @throws \Exception
      */
-    public function destroy(PhrasebookCategory $phrase) {
+    public function destroy(PhrasebookCategory $phrase)
+    {
         $phrase->delete();
         return response()->json([
             'message'   => 'Ok'
