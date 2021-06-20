@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('cover_photo_url')->nullable();
             $table->unsignedTinyInteger('level_id');
             $table->unsignedTinyInteger('status_id');
+            $table->unsignedTinyInteger('role_id');
             $table->string('phone_number')->nullable();
             $table->enum('gender', ['male', 'female', 'none'])->nullable();
             $table->unsignedBigInteger('contribution_point')->default(0);

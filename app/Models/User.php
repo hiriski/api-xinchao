@@ -25,6 +25,7 @@ class User extends Authenticatable
         'photo_url',
         'cover_photo_url',
         'level_id',
+        'role_id',
         'status_id',
         'gender',
         'phone_number',
@@ -50,6 +51,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'birthday'          => 'datetime',
         'level_id'          => 'integer',
+        'role_id'           => 'integer',
         'status_id'         => 'integer',
     ];
 
@@ -57,7 +59,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $with = ['socialAccount'];
+    protected $with = ['socialAccount', 'role'];
 
     /**
      *
@@ -65,8 +67,11 @@ class User extends Authenticatable
      */
     protected $attributes = [
         'level_id'      => 1,
+        'role_id'       => 1,
         'status_id'     => 1,
     ];
+
+    protected $appends = ['phrases_count', 'contributor_points'];
 
     /**
      * Get the key name for route model binding.
@@ -86,7 +91,7 @@ class User extends Authenticatable
      * Relationship between User and Phrasebook (creator).
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function phrasebooks()
+    public function phrases()
     {
         return $this->hasMany(Phrasebook::class, 'created_by');
     }
@@ -127,8 +132,31 @@ class User extends Authenticatable
         return $this->hasMany(PhrasebookCategory::class);
     }
 
+    /**
+     * Relationship between a User and Conversations.
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function conversations()
     {
         return $this->belongsToMany(Conversation::class, 'conversation_to_user');
+    }
+
+    /**
+     * Relationship between a User and Role.
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function getPhrasesCountAttribute()
+    {
+        return $this->phrases()->count();
+    }
+
+    public function getContributorPointsAttribute()
+    {
+        return 0; // need to some logic.
     }
 }

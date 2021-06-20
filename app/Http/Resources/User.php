@@ -24,12 +24,17 @@ class User extends JsonResource
             'photo_url'     => $this->photo_url !== null ? URL::to('/') . '/storage/images/users/' . $this->photo_url : null,
             'cover_photo_url' => $this->cover_photo_url !== null ? URL::to('/') . '/storage/images/covers/' . $this->cover_photo_url : null,
             'social_account' => new SocialAccount($this->whenLoaded('socialAccount')),
+            'status'        => $this->status,
             'level'         => $this->level,
+            'role'          => new Role($this->whenLoaded('role')),
             'gender'        => $this->gender,
             'phone_number'  => $this->phone_number,
             'birthday'      => $this->birthday,
             'about'         => $this->about,
+            'phrases_count' => $this->phrases_count,
+            'contributor_points' => $this->contributor_points,
             'created_at'    => $this->created_at,
+            'updated_at'    => $this->updated_at,
         ];
     }
 }

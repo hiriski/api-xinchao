@@ -14,6 +14,7 @@ use App\Http\Controllers\FavoritePhrasebookController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AccountController;
 
 /*
 |---------------------------------------------------------------------------------
@@ -65,6 +66,15 @@ Route::middleware(['cors'])->group(function () {
     */
     Route::get('/user/{id}', [UserController::class, 'show']);
     Route::get('/user', [UserController::class, 'index']);
+
+    /*
+    |--------------------------------------------------------
+    | Account routes.
+    |--------------------------------------------------------
+    */
+    Route::prefix('account')->group(function () {
+        Route::get('/profile', [AccountController::class, 'profile']);
+    });
 
     /*
     |--------------------------------------------------------

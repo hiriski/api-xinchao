@@ -4,17 +4,20 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder {
+class DatabaseSeeder extends Seeder
+{
     /**
      * Seed the application's database.
      *
      * @return void
      */
-    public function run() {
+    public function run()
+    {
         $this->call([
-            LevelSeeder::class,
-            UserStatusSeeder::class,
-            ColorSeeder::class,
+            // LevelSeeder::class,
+            // UserStatusSeeder::class,
+            // ColorSeeder::class
+            RoleSeeder::class,
         ]);
     }
 }
