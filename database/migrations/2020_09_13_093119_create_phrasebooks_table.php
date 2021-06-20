@@ -4,16 +4,18 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePhrasebooksTable extends Migration {
+class CreatePhrasebooksTable extends Migration
+{
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up() {
+    public function up()
+    {
         Schema::create('phrasebooks', function (Blueprint $table) {
             $table->id();
-            $table->string('id_ID')->comment('Bahasa Indonesia');
+            $table->string('id_ID')->comment('Bahasa Indonesia')->nullable();
             $table->string('vi_VN')->comment('Tiếng Việt');
             $table->string('en_US')->nullable()->comment('(Optional) English');
             $table->text('notes')->nullable();
@@ -39,7 +41,8 @@ class CreatePhrasebooksTable extends Migration {
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('phrasebooks');
     }
 }

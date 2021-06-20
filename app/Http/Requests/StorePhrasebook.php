@@ -4,13 +4,15 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\ApiRequest;
 
-class StorePhrasebook extends ApiRequest {
+class StorePhrasebook extends ApiRequest
+{
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize() {
+    public function authorize()
+    {
         return true;
     }
 
@@ -19,9 +21,10 @@ class StorePhrasebook extends ApiRequest {
      *
      * @return array
      */
-    public function rules() {
+    public function rules()
+    {
         return [
-            'id_ID' => ['required', 'string', 'max:120'],
+            // 'id_ID' => ['required', 'string', 'max:120'],
             'vi_VN' => ['required', 'string', 'max:120'],
         ];
     }
