@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Resources\Conversation as ConversationResource;
 use App\Http\Resources\ConversationCollection;
+use App\Models\Conversation;
+use Illuminate\Support\Str;
 
 class ConversationController extends Controller
 {
@@ -33,7 +35,14 @@ class ConversationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $type = $request->conversation_type;
+        $participants = $request->participants;
+        $conversation = Conversation::create([
+            'conversation_type' => $type !== null ? $type : 'private',
+            'channel_id'        => Str::random(3) . '_' . time(),
+        ]);
+        $conversation->participants()->attach($participants);
+        return new ConversationResource($conversation);
     }
 
     /**

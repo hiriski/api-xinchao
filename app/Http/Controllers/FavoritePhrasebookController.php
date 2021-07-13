@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\JsonResponse;
 use App\Models\Phrasebook;
 
-class FavoritePhrasebookController extends Controller {
+class FavoritePhrasebookController extends Controller
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth:sanctum');
     }
 
@@ -17,8 +19,9 @@ class FavoritePhrasebookController extends Controller {
      * @param App\Models\Phrasebook $phrasebook
      * @return \Illuminate\Http\Response
      */
-    public function store(Phrasebook $phrasebook) {
-        if($phrasebook->addFavorite()) {
+    public function store(Phrasebook $phrasebook)
+    {
+        if ($phrasebook->addFavorite()) {
             return $this->responseOk();
         }
     }
@@ -29,13 +32,15 @@ class FavoritePhrasebookController extends Controller {
      * @param  \App\Models\Phrasebook  $phrasebook
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Phrasebook $phrasebook) {
-        if($phrasebook->removeFavorite()) {
+    public function destroy(Phrasebook $phrasebook)
+    {
+        if ($phrasebook->removeFavorite()) {
             return $this->responseOk();
         }
     }
 
-    protected function responseOk() {
+    protected function responseOk()
+    {
         return response()->json([
             'success' => true,
         ], JsonResponse::HTTP_CREATED);

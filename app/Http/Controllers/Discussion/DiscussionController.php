@@ -11,20 +11,23 @@ use App\Http\Requests\Discussion\StoreDiscussion as DiscussionRequest;
 use App\Http\Resources\Discussion\Discussion as DiscussionResource;
 use App\Http\Resources\Discussion\DiscussionCollection;
 
-class DiscussionController extends Controller {
+class DiscussionController extends Controller
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth:sanctum')->except([
             'index', 'show'
         ]);
     }
-    
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index()
+    {
         // return Discussion::orderBy('id', 'DESC')->paginate(16);
         return new DiscussionCollection(
             Discussion::orderBy('id', 'DESC')->paginate(16)
@@ -37,7 +40,8 @@ class DiscussionController extends Controller {
      * @param  App\Http\Requests\StoreDiscussion  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(DiscussionRequest $request) {
+    public function store(DiscussionRequest $request)
+    {
         $thread = $request->merge([
             'user_id' => Auth::user()->id
         ])->only(['title', 'description', 'content', 'user_id', 'topic_id']);
@@ -56,7 +60,8 @@ class DiscussionController extends Controller {
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show($id)
+    {
         $thread = Discussion::findOrFail($id);
         return new DiscussionResource($thread);
     }
@@ -68,7 +73,8 @@ class DiscussionController extends Controller {
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateDiscussionRequest $request, $id) {
+    public function update(UpdateDiscussionRequest $request, $id)
+    {
         $requestThread = $request->only([
             'title', 'description', 'content', 'topic_id'
         ]);
@@ -86,7 +92,8 @@ class DiscussionController extends Controller {
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
         $thread = Discussion::findOrFail($id);
         $thread->delete();
         return $this->responseWithStatus(
@@ -97,7 +104,8 @@ class DiscussionController extends Controller {
         );
     }
 
-    private function responseWithStatus($status, $message, $code) {
+    private function responseWithStatus($status, $message, $code)
+    {
         return response()->json([
             'success'   => $status,
             'message'   => $message,

@@ -16,14 +16,15 @@ class Conversation extends Model
     protected $with = ['participants'];
 
     protected $appends = [
-      'last_message'
+        'last_message'
     ];
 
     protected $attributes = [
         'conversation_type' => 'private'
     ];
 
-    public function getLastMessageAttribute() {
+    public function getLastMessageAttribute()
+    {
         return $this->messages->last();
     }
 
@@ -31,7 +32,8 @@ class Conversation extends Model
      * Relation between Conversation and Message.
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function messages() {
+    public function messages()
+    {
         return $this->hasMany(Message::class);
     }
 
@@ -39,7 +41,8 @@ class Conversation extends Model
      * Relation between Conversation to User.
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function participants() {
+    public function participants()
+    {
         return $this->belongsToMany(User::class, 'conversation_to_user');
     }
 }

@@ -123,8 +123,8 @@ Route::middleware(['cors'])->group(function () {
     | Conversations Message.
     |--------------------------------------------------------
     */
+    Route::apiResource('/conversation', ConversationController::class);
     Route::post('/conversation/send-first-message/{toUserId}', [MessageController::class, 'firstMessage']);
-    Route::get('/conversation', [ConversationController::class, 'index']);
     Route::post('/message/{conversationId}', [MessageController::class, 'send']);
     Route::get('/message/{conversationId}', [MessageController::class, 'fetch']);
 });

@@ -11,7 +11,8 @@ class Level extends Model
 
     public $timestamps = false;
 
-    public function user() {
+    public function user()
+    {
         return $this->hasMany(User::class);
     }
 }

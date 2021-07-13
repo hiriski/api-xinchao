@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use App\Favoritable;
 
-class Discussion extends Model {
+class Discussion extends Model
+{
     use HasFactory, SoftDeletes, Favoritable;
 
     /**
@@ -39,7 +40,8 @@ class Discussion extends Model {
      * Relationship between Discussion and User
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
@@ -47,7 +49,8 @@ class Discussion extends Model {
      * Relationship between Discussion and Topic
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function topic() {
+    public function topic()
+    {
         return $this->belongsTo(Topic::class);
     }
 
@@ -55,18 +58,17 @@ class Discussion extends Model {
      * Relationship between Discussion and Reply
      * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
-    public function replies() {
+    public function replies()
+    {
         return $this->hasMany(Reply::class);
     }
-    
+
     /**
      * Get the replies count for thread discussion.
      * @return bool
      */
-    public function getRepliesCountAttribute() {
+    public function getRepliesCountAttribute()
+    {
         return $this->replies->count();
     }
 }
-
-
-

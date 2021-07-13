@@ -9,9 +9,11 @@ use App\Models\Discussion;
 use App\Models\Reply;
 use Auth;
 
-class ReplyController extends Controller {
+class ReplyController extends Controller
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth:sanctum');
     }
 
@@ -70,7 +72,8 @@ class ReplyController extends Controller {
      * @param App\Http\Controllers\Reply  $reply
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Discussion $discussion, Reply $reply) {
+    public function destroy(Discussion $discussion, Reply $reply)
+    {
         $reply->delete();
         return $this->responseWithStatus(
             true,
@@ -80,7 +83,8 @@ class ReplyController extends Controller {
         );
     }
 
-    private function responseWithStatus($status, $message, $code) {
+    private function responseWithStatus($status, $message, $code)
+    {
         return response()->json([
             'success'   => $status,
             'message'   => $message,
