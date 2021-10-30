@@ -1,3 +1,4 @@
+  
 <?php
 
 use Illuminate\Http\Request;
@@ -83,6 +84,7 @@ Route::middleware(['cors'])->group(function () {
     */
     Route::name('phrasebook.')->group(function () {
         Route::prefix('/phrasebook')->group(function () {
+            Route::get('/latest', [PhrasebookController::class, 'latest']);
             Route::apiResource('/category', PhrasebookCategoryController::class);
             /** Favorite phrasebook */
             Route::post('/favorite/{phrasebook}', [FavoritePhrasebookController::class, 'store'])

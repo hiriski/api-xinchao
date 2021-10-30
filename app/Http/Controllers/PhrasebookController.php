@@ -9,8 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\StorePhrasebook as PhraseRequest;
 use App\Http\Resources\PhrasebookCollection;
-use App\Http\Resources\PhrasebookComplexCollection;
 use App\Http\Resources\Phrasebook as PhrasebookResource;
+use App\Http\Resources\PhrasebookWithUserCollection;
 use App\Http\Resources\PhrasebookCategory as PhrasebookCategoryResource;
 
 class PhrasebookController extends Controller
@@ -18,7 +18,7 @@ class PhrasebookController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->except(['index']);
+        $this->middleware('auth:sanctum')->except(['index', 'latest']);
     }
 
     /**
@@ -36,21 +36,36 @@ class PhrasebookController extends Controller
                 ->with(['creator'])
                 ->take($request->latest)
                 ->get();
-            return new PhrasebookComplexCollection($phrases);
+            return new PhrasebookWithUserCollection($phrases);
         }
 
         if ($request->category) {
             $category = PhrasebookCategory::where('slug', $request->category)
                 ->first();
-            $phrasebooks = Phrasebook::where('category_id', $category->id)->get();
+            $phrasebooks = Phrasebook::where('category_id', $category->id)->with(['creator'])->get();
             return response()->json([
-                'phrasebooks' => new PhrasebookComplexCollection($phrasebooks),
-                'category'    => new PhrasebookCategoryResource($category)
+                'phrases'   => new PhrasebookWithUserCollection($phrasebooks),
+                'category'  => new PhrasebookCategoryResource($category)
             ]);
         } else {
             $phrases = Phrasebook::all();
         }
         return new PhrasebookCollection($phrases);
+    }
+
+    /**
+     * Get latest phrasebooks.
+     */
+    public function latest(Request $request)
+    {
+        $phrases = null;
+        $defaultLimit = 20;
+        if ($request->limit) {
+            $phrases = Phrasebook::orderBy('id', 'DESC')->take($request->limit)->get();
+        } else {
+            $phrases = Phrasebook::orderBy('id', 'DESC')->take($defaultLimit)->get();
+        }
+        return new PhrasebookWithUserCollection($phrases);
     }
 
     /**
