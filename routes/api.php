@@ -15,7 +15,9 @@ use App\Http\Controllers\FavoritePhrasebookController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\AccountController;
+use App\Http\Controllers\Account\AccountController;
+use App\Http\Controllers\Account\AccountPhrasebookController;
+use App\Http\Controllers\MasterDataController;
 
 /*
 |---------------------------------------------------------------------------------
@@ -60,6 +62,15 @@ Route::middleware(['cors'])->group(function () {
         Route::get('/get-authenticated-user', [App\Http\Controllers\Auth\AuthController::class, 'getAuthenticatedUser'])->name('get-authenticated-user');
     });
 
+
+
+    /*
+    |--------------------------------------------------------
+    | Master data routes.
+    |--------------------------------------------------------
+    */
+    Route::post('/master-data', MasterDataController::class);
+
     /*
     |--------------------------------------------------------
     | A User Routes
@@ -73,8 +84,11 @@ Route::middleware(['cors'])->group(function () {
     | Account routes.
     |--------------------------------------------------------
     */
-    Route::prefix('account')->group(function () {
-        Route::get('/profile', [AccountController::class, 'profile']);
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::prefix('account')->group(function () {
+            Route::get('/profile', [AccountController::class, 'profile']);
+            Route::get("/phrases", AccountPhrasebookController::class);
+        });
     });
 
     /*

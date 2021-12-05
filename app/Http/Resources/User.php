@@ -27,6 +27,7 @@ class User extends JsonResource
             'status'        => $this->status,
             'level'         => $this->level,
             'role'          => new Role($this->whenLoaded('role')),
+            'country'       => new Country($this->whenLoaded('country')),
             'gender'        => $this->gender,
             'phone_number'  => $this->phone_number,
             'birthday'      => $this->birthday,

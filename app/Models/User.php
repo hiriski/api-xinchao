@@ -59,7 +59,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $with = ['socialAccount', 'role'];
+    protected $with = ['socialAccount', 'role', 'country'];
 
     /**
      *
@@ -158,5 +158,14 @@ class User extends Authenticatable
     public function getContributorPointsAttribute()
     {
         return 0; // need to some logic.
+    }
+
+    /**
+     * Relationship between a User and Country.
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
     }
 }

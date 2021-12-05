@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
             // LevelSeeder::class,
             // UserStatusSeeder::class,
             // ColorSeeder::class
-            RoleSeeder::class,
+            CountrySeeder::class,
         ]);
     }
 }

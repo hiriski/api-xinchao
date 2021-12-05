@@ -1,18 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Account;
 
-use App\Models\User;
+// use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\User as UserResource;
 
 class AccountController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('auth:sanctum');
-    }
 
     /**
      * Display a listing of the resource.
@@ -21,8 +17,8 @@ class AccountController extends Controller
      */
     public function profile()
     {
-        $profile = User::findOrFail(auth()->id());
-        return new UserResource($profile);
+        $profile = auth()->user();
+        return response()->json(new UserResource($profile));
     }
     /**
      * Display a listing of the resource.
