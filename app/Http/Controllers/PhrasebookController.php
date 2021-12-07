@@ -12,13 +12,14 @@ use App\Http\Resources\PhrasebookCollection;
 use App\Http\Resources\Phrasebook as PhrasebookResource;
 use App\Http\Resources\PhrasebookWithUserCollection;
 use App\Http\Resources\PhrasebookCategory as PhrasebookCategoryResource;
+use App\Http\Resources\PhrasebookWithUser;
 
 class PhrasebookController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->except(['index', 'latest']);
+        $this->middleware('auth:sanctum')->except(['index', 'latest', 'show']);
     }
 
     /**
@@ -91,9 +92,11 @@ class PhrasebookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function show($id) {
-    //     //
-    // }
+    public function show($id)
+    {
+        $phrase = Phrasebook::findOrFail($id);
+        return response()->json(new PhrasebookWithUser($phrase));
+    }
 
     /**
      * Update the specified resource in storage.

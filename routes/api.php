@@ -107,8 +107,7 @@ Route::middleware(['cors'])->group(function () {
                 ->name('favorite.destroy');
         });
     });
-    Route::apiResource('/phrasebook', PhrasebookController::class)
-        ->except(['show']);
+    Route::apiResource('/phrasebook', PhrasebookController::class);
 
     /*
     |--------------------------------------------------------
